@@ -1,0 +1,9 @@
+﻿@model List<Ticket>
+
+<h5>Ticket Summary</h5>
+<ul>
+    @foreach (Ticket ti in Model)
+    {
+        <li>@ti.GetSummary()</li>
+    }
+</ul>
