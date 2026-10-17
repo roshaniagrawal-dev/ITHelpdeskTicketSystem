@@ -1,9 +1,29 @@
 ﻿@model List<Ticket>
-
-<h5>Ticket Summary</h5>
-<ul>
-    @foreach (Ticket ti in Model)
-    {
-        <li>@ti.GetSummary()</li>
-    }
-</ul>
+@{
+    ViewData["Title"] = "Tickets";
+}
+<h5>All Tickets</h5>
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Created On</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Ticket ti in Model)
+        {
+            <tr>
+                <td>@ti.Id</td>
+                <td>@ti.Title</td>
+                <td><span class="priority-badge priority-@ti.Priority.ToString().ToLower()">@ti.Priority</span></td>
+                <td><span class="status-badge status-@ti.Status.ToString().ToLower()">@ti.Status</span></td>
+                <td>@ti.CreatedOn.ToString("dd MMM yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+    

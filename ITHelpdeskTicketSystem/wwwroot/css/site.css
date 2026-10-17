@@ -20,3 +20,38 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.priority-badge, .status-badge {
+    display: inline-block;
+    padding: 3px 16px;
+    border: black 1px solid;
+    border-radius: 12px;
+    font-weight: 500;
+    font-size: 16px;
+    background-color: white;
+}
+.priority-critical {
+    color: red;
+}
+.priority-high {
+    color: orange;
+}
+.priority-medium {
+    color: blue;
+}
+.priority-low {
+    color: gray;
+}
+
+.status-open {
+    color: blue;
+}
+.status-inprogress {
+    color: orange;
+}
+.status-resolved {
+    color: green;
+}
+.status-closed {
+    color: gray;
+}
