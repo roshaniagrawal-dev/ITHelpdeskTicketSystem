@@ -2,7 +2,7 @@
 
 namespace ITHelpdeskTicketSystem.Models
 {
-    public class Ticket
+    public abstract class Ticket
     {
         public int Id { get; set; }
         public string Title { get; private set; }
@@ -11,7 +11,7 @@ namespace ITHelpdeskTicketSystem.Models
         public TicketStatus Status { get; private set; } = TicketStatus.Open;
         public DateTime CreatedOn { get; private set; }
 
-        public Ticket(string title, string description, TicketPriority priority, DateTime createdOn)
+        protected Ticket(string title, string description, TicketPriority priority, DateTime createdOn)
         {
             if (string.IsNullOrWhiteSpace(title))
             {
@@ -24,9 +24,9 @@ namespace ITHelpdeskTicketSystem.Models
             CreatedOn = createdOn;
         }
 
-        public Ticket(string title, string description, TicketPriority priority) : this(title, description, priority, DateTime.Now) { }
+        protected Ticket(string title, string description, TicketPriority priority) : this(title, description, priority, DateTime.Now) { }
 
-        public Ticket(Ticket ticket) : this(ticket.Title, ticket.Description, ticket.Priority) { }
+        protected Ticket(Ticket ticket) : this(ticket.Title, ticket.Description, ticket.Priority) { }
 
         public string GetSummary()
         {
@@ -55,9 +55,6 @@ namespace ITHelpdeskTicketSystem.Models
             Status = Status == TicketStatus.Resolved ? TicketStatus.InProgress : throw new InvalidOperationException($"Only {TicketStatus.Resolved} tickets can be reopened. Current status: {Status}");
         }
 
-        public virtual string GetDetails()
-        {
-            return "No details";
-        }
+        public abstract string GetDetails();
     }
 }

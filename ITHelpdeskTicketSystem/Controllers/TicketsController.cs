@@ -1,5 +1,7 @@
 ﻿using ITHelpdeskTicketSystem.Models;
 using ITHelpdeskTicketSystem.Models.Enums;
+using ITHelpdeskTicketSystem.Services;
+using ITHelpdeskTicketSystem.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ITHelpdeskTicketSystem.Controllers
@@ -24,11 +26,6 @@ namespace ITHelpdeskTicketSystem.Controllers
                 }
             };
 
-            //Copy the object using copy constructor 
-            Ticket ticket = ticketList.First();
-            Ticket copyT = new Ticket(ticket); 
-            ticketList.Add(copyT);
-
             ticketList.ForEach(ticket => {
                 if (ticket.Id != 0)
                 {
@@ -51,6 +48,8 @@ namespace ITHelpdeskTicketSystem.Controllers
                     }
                 }
             });
+            INotifier notifier = new SmsNotifier();
+            ViewBag.Message = notifier.Send($"{ticketList.Count} tickets loaded");
             return View(ticketList);
         }
     }
