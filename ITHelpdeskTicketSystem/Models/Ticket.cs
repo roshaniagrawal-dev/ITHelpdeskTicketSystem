@@ -32,7 +32,12 @@ namespace ITHelpdeskTicketSystem.Models
         {
             return $"#{Id} - {Title} [{Priority}] - {Status}";
         }
-
+        public string GetSummary(bool includeDate)
+        {
+            return includeDate
+                ? $"{GetSummary()} - {CreatedOn:dd MMM yyyy}"
+                : GetSummary();
+        }
         public void StartWork()
         {
             Status = Status == TicketStatus.Open ? TicketStatus.InProgress : throw new InvalidOperationException($"Only {TicketStatus.Open} tickets can be started. Current status: {Status}");
@@ -48,6 +53,11 @@ namespace ITHelpdeskTicketSystem.Models
         public void Reopen()
         {
             Status = Status == TicketStatus.Resolved ? TicketStatus.InProgress : throw new InvalidOperationException($"Only {TicketStatus.Resolved} tickets can be reopened. Current status: {Status}");
+        }
+
+        public virtual string GetDetails()
+        {
+            return "No details";
         }
     }
 }

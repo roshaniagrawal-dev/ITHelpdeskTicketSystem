@@ -10,15 +10,15 @@ namespace ITHelpdeskTicketSystem.Controllers
         {
             List<Ticket> ticketList = new()
             {
-                new SoftwareTicket("VS2022", "Laptop not working",  "Laptop showing black screen.", TicketPriority.Medium)
+                new SoftwareTicket("VS2022", "Download VS 2022",  "need for .net framework code blocks.", TicketPriority.Medium)
                 {
                     Id = 1
                 },
-                new HardwareTicket("LPU001", "Update issue", "Unable to update OS of laptop.", TicketPriority.High)
+                new HardwareTicket("LPU001", "Need new laptop as old not working", "Please issue me new laptop with .... specifications.", TicketPriority.High)
                 {
                     Id = 2
                 },
-                new AccessRequestTicket("VPN", "Black screen", "Black screen of laptop.", TicketPriority.Low, DateTime.Now.AddDays(-1))
+                new AccessRequestTicket("VPN", "Share me VPN details", "Please make it priority as without this cant start working.", TicketPriority.High, DateTime.Now.AddDays(-1))
                 {
                     Id = 3
                 }

@@ -8,7 +8,14 @@ namespace ITHelpdeskTicketSystem.Models
 
         public AccessRequestTicket(string systemName, string title, string description, TicketPriority priority, DateTime createdOn) : base(title, description, priority, createdOn)
         {
+            if (string.IsNullOrWhiteSpace(systemName))
+                throw new ArgumentException("System name is required.", nameof(systemName));
             SystemName = systemName;
+        }
+
+        public override string GetDetails()
+        {
+            return $"System: {SystemName}";
         }
     }
 }

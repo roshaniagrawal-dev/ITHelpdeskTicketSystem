@@ -23,22 +23,7 @@
                 <td><span class="priority-badge priority-@ti.Priority.ToString().ToLower()">@ti.Priority</span></td>
                 <td><span class="status-badge status-@ti.Status.ToString().ToLower()">@ti.Status</span></td>
                 <td>@ti.CreatedOn.ToString("dd MMM yyyy")</td>
-                @if (ti is SoftwareTicket st)
-                {
-                    <td>@st.ApplicationName</td>
-                }
-                else if (ti is HardwareTicket ht)
-                {
-                    <td>@ht.AssetTag</td>
-                }
-                else if(ti is AccessRequestTicket art)
-                {
-                    <td>@art.SystemName</td>
-                }
-                else
-                {
-                    <td></td>
-                }
+                <td>@ti.GetDetails()</td>
             </tr>
         }
     </tbody>
