@@ -8,30 +8,26 @@ namespace ITHelpdeskTicketSystem.Controllers
     {
         public IActionResult Index()
         {
-            List<Ticket> ticketList = new List<Ticket>()
+            List<Ticket> ticketList = new()
             {
-                new Ticket
+                new SoftwareTicket("VS2022", "Laptop not working",  "Laptop showing black screen.", TicketPriority.Medium)
                 {
-                    Id = 1,
-                    Title = "Laptop not working",
-                    Description = "Laptop showing black screen.",
-                    Priority = TicketPriority.Critical
+                    Id = 1
                 },
-                new Ticket
+                new HardwareTicket("LPU001", "Update issue", "Unable to update OS of laptop.", TicketPriority.High)
                 {
-                    Id = 2,
-                    Title = "Update issue",
-                    Description = "Unable to update OS of laptop.",
-                    Priority = TicketPriority.High
+                    Id = 2
                 },
-                new Ticket
+                new AccessRequestTicket("VPN", "Black screen", "Black screen of laptop.", TicketPriority.Low, DateTime.Now.AddDays(-1))
                 {
-                    Id = 3,
-                    Title = "Display resolution issue",
-                    Description = "Not able maximius or minimize the display resolution through settings.",
-                    Priority = TicketPriority.Low
+                    Id = 3
                 }
             };
+
+            //Copy the object using copy constructor 
+            Ticket ticket = ticketList.First();
+            Ticket copyT = new Ticket(ticket); 
+            ticketList.Add(copyT);
 
             ticketList.ForEach(ticket => {
                 if (ticket.Id != 0)

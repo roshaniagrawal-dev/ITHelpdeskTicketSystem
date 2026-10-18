@@ -5,11 +5,28 @@ namespace ITHelpdeskTicketSystem.Models
     public class Ticket
     {
         public int Id { get; set; }
-        public string Title { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public TicketPriority Priority { get; set; } = TicketPriority.Low;
+        public string Title { get; private set; }
+        public string Description { get; set; }
+        public TicketPriority Priority { get; private set; }
         public TicketStatus Status { get; private set; } = TicketStatus.Open;
-        public DateTime CreatedOn { get; private set; } = DateTime.Now;
+        public DateTime CreatedOn { get; private set; }
+
+        public Ticket(string title, string description, TicketPriority priority, DateTime createdOn)
+        {
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                throw new ArgumentException($"{nameof(Title)} can't be null or empty");
+            }
+            
+            Title = title;
+            Description = description;
+            Priority = priority;
+            CreatedOn = createdOn;
+        }
+
+        public Ticket(string title, string description, TicketPriority priority) : this(title, description, priority, DateTime.Now) { }
+
+        public Ticket(Ticket ticket) : this(ticket.Title, ticket.Description, ticket.Priority) { }
 
         public string GetSummary()
         {
