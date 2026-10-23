@@ -10,6 +10,7 @@ namespace ITHelpdeskTicketSystem.Models
         public TicketPriority Priority { get; private set; }
         public TicketStatus Status { get; private set; } = TicketStatus.Open;
         public DateTime CreatedOn { get; private set; }
+        public string? AssignedTo { get; private set; }
 
         protected Ticket(string title, string description, TicketPriority priority, DateTime createdOn)
         {
