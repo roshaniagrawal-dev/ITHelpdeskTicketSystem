@@ -9,16 +9,17 @@ namespace ITHelpdeskTicketSystem.Controllers
     public class TicketsController : Controller
     {
         private readonly ITicketRepository _ticketRepository;
-        public TicketsController(ITicketRepository ticketRepository)
+        private readonly INotifier _notifier;
+        public TicketsController(ITicketRepository ticketRepository, INotifier notifier)
         {
             _ticketRepository = ticketRepository;
+            _notifier = notifier;
         }
 
         public IActionResult Index()
         {
             var ticketList = _ticketRepository.GetAll();
-            INotifier notifier = new SmsNotifier();
-            ViewBag.Message = notifier.Send($"{ticketList.Count} tickets loaded");
+            ViewBag.Message = _notifier.Send($"{ticketList.Count} tickets loaded");
             return View(ticketList);
         }
     }

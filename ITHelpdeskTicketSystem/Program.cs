@@ -1,14 +1,16 @@
+using ITHelpdeskTicketSystem.Data;
 using ITHelpdeskTicketSystem.Services;
 using ITHelpdeskTicketSystem.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped<ITicketRepository, TicketRepository>();
+builder.Services.AddScoped<ITicketRepository, SqlTicketRepository>();
 builder.Services.AddScoped<INotifier, SmsNotifier>();
-
+builder.Services.AddDbContext<AppDbContext>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

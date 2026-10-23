@@ -56,5 +56,12 @@ namespace ITHelpdeskTicketSystem.Models
         }
 
         public abstract string GetDetails();
+
+        internal void LoadFromDatabase(int id, TicketStatus status, DateTime createdOn)
+        {
+            Id = id;
+            Status = status;
+            CreatedOn = createdOn;
+        }
     }
 }
