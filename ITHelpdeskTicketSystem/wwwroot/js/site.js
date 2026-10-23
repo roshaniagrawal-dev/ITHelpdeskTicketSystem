@@ -1,4 +1,16 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿$(document).ready(function () {
+    $("tbody tr").click(function () {
+        $("tbody tr").removeClass("table-active");
+        $(this).addClass("table-active");
+    });
 
-// Write your JavaScript code.
+    $("#searchBox").on("input", function () {
+        var text = $(this).val().toLowerCase();
+
+        $("tbody tr").each(function () {
+            var rowText = $(this).text().toLowerCase();
+            $(this).toggle(rowText.includes(text));
+        });
+    });
+});
+

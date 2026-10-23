@@ -1,7 +1,13 @@
+using ITHelpdeskTicketSystem.Services;
+using ITHelpdeskTicketSystem.Services.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddScoped<ITicketRepository, TicketRepository>();
+builder.Services.AddScoped<INotifier, SmsNotifier>();
 
 var app = builder.Build();
 
