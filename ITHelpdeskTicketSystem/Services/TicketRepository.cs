@@ -48,5 +48,10 @@ namespace ITHelpdeskTicketSystem.Services
             });
             return ticketList;
         }
+
+        public List<Ticket> Search(string? searchText, TicketPriority? priority)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

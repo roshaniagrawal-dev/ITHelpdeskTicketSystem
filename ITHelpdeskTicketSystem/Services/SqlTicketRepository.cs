@@ -37,5 +37,22 @@ namespace ITHelpdeskTicketSystem.Services
             ticket.LoadFromDatabase(row.Id, (TicketStatus)row.Status, row.CreatedOn);
             return ticket;
         }
+
+        public List<Ticket> Search(string? searchText, TicketPriority? priority) 
+        {
+            IQueryable<TicketEntity> tickets = _db.Tickets.AsNoTracking();
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                tickets = tickets.Where(t => t.Title.Contains(searchText));
+            }
+            if (priority.HasValue)
+            {
+
+                tickets = tickets.Where(t => t.Priority == (int)priority.Value);
+            }
+
+            tickets = tickets.OrderByDescending(t => t.CreatedOn);
+            return tickets.ToList().Select(ToModel).ToList();
+        }
     }
 }

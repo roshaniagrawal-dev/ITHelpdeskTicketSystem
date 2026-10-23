@@ -16,9 +16,11 @@ namespace ITHelpdeskTicketSystem.Controllers
             _notifier = notifier;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string? search, TicketPriority? priority)
         {
-            var ticketList = _ticketRepository.GetAll();
+            var ticketList = _ticketRepository.Search(search, priority);
+            ViewBag.Search = search;
+            ViewBag.Priority = priority;
             ViewBag.Message = _notifier.Send($"{ticketList.Count} tickets loaded");
             return View(ticketList);
         }

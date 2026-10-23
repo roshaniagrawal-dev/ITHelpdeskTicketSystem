@@ -1,10 +1,17 @@
 ﻿@model List<Ticket>
+@using ITHelpdeskTicketSystem.Models.Enums
 @{
     ViewData["Title"] = "Tickets";
 }
 <h1>All Tickets</h1>
 <h5>@ViewBag.Message</h5>
-<input type="text" id="searchBox" class="form-control mb-3" placeholder="Search..." />
+<form method="get" class="d-flex gap-2 mb-3">
+    <select name="priority" class="form-select" asp-items="Html.GetEnumSelectList<TicketPriority>()">
+        <option value="">All priorities</option>
+    </select>
+    <input type="text" name="search" id="searchBox" value="@ViewBag.Search" class="form-control mb-3" placeholder="Search..." />
+    <button type="submit"id="btnSearch">Search</button>
+</form>
 <table class="table table-hover">
     <thead>
         <tr>
