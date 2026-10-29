@@ -6,6 +6,11 @@ namespace ITHelpdeskTicketSystem.Services
 {
     public class TicketRepository : ITicketRepository
     {
+        public bool DeleteTicket(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Ticket> GetAll()
         {
             List<Ticket> ticketList = new()
@@ -47,6 +52,11 @@ namespace ITHelpdeskTicketSystem.Services
                 }
             });
             return ticketList;
+        }
+
+        public Ticket? GetTicket(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public List<Ticket> Search(string? searchText, TicketPriority? priority)

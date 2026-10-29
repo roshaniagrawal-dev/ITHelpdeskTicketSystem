@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Get VS Post";
+}
+
+@if (!string.IsNullOrWhiteSpace(ViewBag.GreetingMessage))
+{
+    <h1>@ViewBag.GreetingMessage</h1>
+}
+
+<h4>Post Form</h4>
+<form method="post">
+    <input type="text" name="name" />
+    <button type="submit">Show Message</button>
+</form>
+<br/>
+<br/>
+<h4>Get Form</h4>
+<form method="get">
+    <input type="text" name="name" />
+    <button type="submit">Show Message</button>
+</form>

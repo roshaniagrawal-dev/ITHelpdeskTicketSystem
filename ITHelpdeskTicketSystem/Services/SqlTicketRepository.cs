@@ -2,6 +2,7 @@
 using ITHelpdeskTicketSystem.Models;
 using ITHelpdeskTicketSystem.Models.Enums;
 using ITHelpdeskTicketSystem.Services.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 using TicketEntity = ITHelpdeskTicketSystem.Data.Entities.Ticket;
@@ -20,6 +21,28 @@ namespace ITHelpdeskTicketSystem.Services
         {
             var rows = _db.Tickets.AsNoTracking().ToList();
             return rows.Select(ToModel).ToList();
+        }
+
+        public Ticket? GetTicket(int id)
+        {
+            var row = _db.Tickets.AsNoTracking().FirstOrDefault(x => x.Id == id);
+            if (row == null)
+            {
+                return null;
+            }
+            return ToModel(row);
+        }
+
+        public bool DeleteTicket(int id)
+        {
+            var row = _db.Tickets.FirstOrDefault(x => x.Id == id);
+            if (row == null)
+            {
+                return false;
+            }
+            _db.Tickets.Remove(row);
+            _db.SaveChanges();
+            return true;
         }
 
         private static Ticket ToModel(TicketEntity row)

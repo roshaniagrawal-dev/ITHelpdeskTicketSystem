@@ -16,6 +16,7 @@ namespace ITHelpdeskTicketSystem.Controllers
             _notifier = notifier;
         }
 
+
         public IActionResult Index(string? search, TicketPriority? priority)
         {
             var ticketList = _ticketRepository.Search(search, priority);
@@ -23,6 +24,19 @@ namespace ITHelpdeskTicketSystem.Controllers
             ViewBag.Priority = priority;
             ViewBag.Message = _notifier.Send($"{ticketList.Count} tickets loaded");
             return View(ticketList);
+        }
+
+        public IActionResult Details(int id)
+        {
+            if (id == 0)
+            {
+                return NotFound();
+            }
+            var result = _ticketRepository.GetTicket(id);
+            if (result == null) {
+                return NotFound();
+            }
+            return View("Details", result);
         }
     }
 }
