@@ -2,6 +2,7 @@
 using ITHelpdeskTicketSystem.Models;
 using ITHelpdeskTicketSystem.Models.Enums;
 using ITHelpdeskTicketSystem.Services.Interfaces;
+using ITHelpdeskTicketSystem.ViewModels;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,13 +20,13 @@ namespace ITHelpdeskTicketSystem.Services
 
         public List<Ticket> GetAll()
         {
-            var rows = _db.Tickets.AsNoTracking().ToList();
+            var rows = _db.Tickets.Where(x=> x.Status != (int)TicketStatus.InActive).AsNoTracking().ToList();
             return rows.Select(ToModel).ToList();
         }
 
         public Ticket? GetTicket(int id)
         {
-            var row = _db.Tickets.AsNoTracking().FirstOrDefault(x => x.Id == id);
+            var row = _db.Tickets.Where(x => x.Status != (int)TicketStatus.InActive).AsNoTracking().FirstOrDefault(x => x.Id == id);
             if (row == null)
             {
                 return null;
@@ -40,7 +41,7 @@ namespace ITHelpdeskTicketSystem.Services
             {
                 return false;
             }
-            _db.Tickets.Remove(row);
+            row.Status = (int)TicketStatus.InActive;
             _db.SaveChanges();
             return true;
         }
@@ -51,9 +52,9 @@ namespace ITHelpdeskTicketSystem.Services
             var description = row.Description ?? string.Empty;
             Ticket ticket = row.TicketType switch
             {
-                "Hardware" => new HardwareTicket(row.AssetTag!, row.Title, description, priority),
-                "Software" => new SoftwareTicket(row.ApplicationName!, row.Title, description, priority),
-                "Access" => new AccessRequestTicket(row.SystemName!, row.Title, description, priority, row.CreatedOn),
+                "1" => new HardwareTicket(row.AssetTag!, row.Title, description, priority),
+                "2" => new SoftwareTicket(row.ApplicationName!, row.Title, description, priority),
+                "3" => new AccessRequestTicket(row.SystemName!, row.Title, description, priority, row.CreatedOn),
                 _ => throw new InvalidOperationException($"Unknown ticket type: {row.TicketType}")
             };
 
@@ -70,12 +71,37 @@ namespace ITHelpdeskTicketSystem.Services
             }
             if (priority.HasValue)
             {
-
                 tickets = tickets.Where(t => t.Priority == (int)priority.Value);
             }
 
-            tickets = tickets.OrderByDescending(t => t.CreatedOn);
+            tickets = tickets.Where(x=> x.Status != (int)TicketStatus.InActive).OrderBy(t => t.Id);
             return tickets.ToList().Select(ToModel).ToList();
+        }
+
+        public int AddTicket(CreateTicketViewModel ticket)
+        {
+            TicketEntity ticket1 = new ()
+            {
+                Title = ticket.Title,
+                CreatedOn = DateTime.Now,
+                Description = ticket.Description ?? string.Empty,
+                Priority = (int)ticket.Priority,
+                Status = (int)TicketStatus.Open,
+                TicketType = ticket.TicketType,
+                AssignedTo = "Roshani"
+            };
+
+            switch (ticket.TicketType)
+            {
+                case "1" : ticket1.AssetTag = ticket.AssetTag; break;
+                case "2" : ticket1.ApplicationName = ticket.ApplicationName; break;
+                case "3" : ticket1.SystemName = ticket.SystemName; break;
+                default: break;
+            }
+
+            _db.Tickets.Add(ticket1);
+            _db.SaveChanges();
+            return ticket1.Id;
         }
     }
 }

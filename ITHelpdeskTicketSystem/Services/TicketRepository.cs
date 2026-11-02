@@ -1,11 +1,17 @@
 ﻿using ITHelpdeskTicketSystem.Models;
 using ITHelpdeskTicketSystem.Models.Enums;
 using ITHelpdeskTicketSystem.Services.Interfaces;
+using ITHelpdeskTicketSystem.ViewModels;
 
 namespace ITHelpdeskTicketSystem.Services
 {
     public class TicketRepository : ITicketRepository
     {
+        public int AddTicket(CreateTicketViewModel createTicketViewModel)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool DeleteTicket(int id)
         {
             throw new NotImplementedException();

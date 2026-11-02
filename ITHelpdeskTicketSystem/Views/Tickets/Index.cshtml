@@ -3,16 +3,39 @@
 @{
     ViewData["Title"] = "Tickets";
 }
-<h1>All Tickets</h1>
-<h5>@ViewBag.Message</h5>
-<form method="get" class="d-flex gap-2 mb-3">
-    <select name="priority" class="form-select" asp-items="Html.GetEnumSelectList<TicketPriority>()">
-        <option value="">All priorities</option>
-    </select>
-    <input type="text" name="search" id="searchBox" value="@ViewBag.Search" class="form-control mb-3" placeholder="Search..." />
-    <button type="submit"id="btnSearch">Search</button>
+
+<h6>@ViewBag.PageTitle</h6>
+
+@if (TempData["SuccessMessage"] is string msg)
+{
+    <span class="SuccessMessage">@msg</span>
+}
+
+<div class="d-flex justify-content-between p-2">
+    <div class="float-start">
+        <h1>All Tickets</h1>
+    </div>
+    <div class="float-end">
+        <a asp-action="Create" class="btn btn-primary">Create</a>
+    </div>
+</div>
+<h5 class="message-viewbag">@ViewBag.Message</h5>
+
+<form method="get" class="row p-2">
+    <div class="form-group col-lg-5">
+        <select name="priority" class="form-select" asp-items="Html.GetEnumSelectList<TicketPriority>()">
+            <option value="">All priorities</option>
+        </select>
+    </div>
+    <div class="form-group col-lg-5">
+        <input type="text" name="search" id="searchBox" value="@ViewBag.Search" class="form-control mb-3" placeholder="Search..." />
+    </div>
+    <div class="col-lg-2 text-end">
+        <button type="submit" id="btnSearch" class="btn btn-secondary">Search</button>
+    </div>
 </form>
-<table class="table table-hover">
+
+<table class="table table-hover p-2">
     <thead>
         <tr>
             <th></th>
@@ -28,7 +51,16 @@
         @foreach (Ticket ti in Model)
         {
             <tr>
-                <td><a asp-action="Details" asp-route-id="@ti.Id">@ti.Title</a></td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@ti.Id"><i class="bi bi-eye"></i></a>
+                    <a asp-action="Edit" asp-route-id="@ti.Id"> <i class="bi bi-pencil-square"></i></a>
+                    <form asp-action="Delete" asp-route-id="@ti.Id" method="post" class="d-inline">
+                        <button class="btn btn-link p-0 text-danger" title="Delete"
+                                onclick="return confirm('Delete this ticket?')">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </form>
+                </td>
                 <td>@ti.Id</td>
                 <td>@ti.Title</td>
                 <td><span class="priority-badge priority-@ti.Priority.ToString().ToLower()">@ti.Priority</span></td>

@@ -1,7 +1,6 @@
-﻿using ITHelpdeskTicketSystem.Models;
-using ITHelpdeskTicketSystem.Models.Enums;
-using ITHelpdeskTicketSystem.Services;
+﻿using ITHelpdeskTicketSystem.Models.Enums;
 using ITHelpdeskTicketSystem.Services.Interfaces;
+using ITHelpdeskTicketSystem.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ITHelpdeskTicketSystem.Controllers
@@ -23,6 +22,7 @@ namespace ITHelpdeskTicketSystem.Controllers
             ViewBag.Search = search;
             ViewBag.Priority = priority;
             ViewBag.Message = _notifier.Send($"{ticketList.Count} tickets loaded");
+            ViewData["PageTitle"] = "Tickets";
             return View(ticketList);
         }
 
@@ -36,7 +36,38 @@ namespace ITHelpdeskTicketSystem.Controllers
             if (result == null) {
                 return NotFound();
             }
-            return View("Details", result);
+            return View(result);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View(new CreateTicketViewModel());
+        }
+
+        [HttpPost]
+        public IActionResult Create(CreateTicketViewModel createTicketViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(createTicketViewModel);
+            }
+            var id = _ticketRepository.AddTicket(createTicketViewModel);
+            if (id == 0)
+            {
+                return View(createTicketViewModel);
+            }
+            TempData["SuccessMessage"] = "Successfully added record..!";
+            return RedirectToAction("Details", new { id });
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            bool result = _ticketRepository.DeleteTicket(id);
+            if (result == false) return NotFound();
+            TempData["SuccessMessage"] = "Successfully deleted record..!";
+            return RedirectToAction("Index");
         }
     }
 }

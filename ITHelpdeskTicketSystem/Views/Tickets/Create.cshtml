@@ -1,0 +1,59 @@
+﻿@model ITHelpdeskTicketSystem.ViewModels.CreateTicketViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create Ticket</h1>
+
+<hr />
+
+<form asp-action="Create">
+    <div class="row g-3">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group col-sm-6">
+            <label asp-for="Title" class="control-label"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-group col-sm-6">
+            <label asp-for="Description" class="control-label"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-group col-sm-6">
+            <label asp-for="Priority" class="control-label"></label>
+            <select asp-for="Priority" asp-items="Model.ticketPriorities" class="form-select"><option value="">select priority</option></select>
+            <span asp-validation-for="Priority" class="text-danger"></span>
+        </div>
+        <div class="form-group col-sm-6">
+            <label asp-for="TicketType" class="control-label"></label>
+            <select id="TicketType" asp-for="TicketType" asp-items="Model.ticketTypes" class="form-select"><option value="">select Ticket Type</option></select>
+            <span asp-validation-for="TicketType" class="text-danger"></span>
+        </div>
+        <div class="form-group type-field col-sm-6" data-type="hardware">
+            <label asp-for="AssetTag" class="control-label"></label>
+            <input asp-for="AssetTag" class="form-control" />
+            <span asp-validation-for="AssetTag" class="text-danger"></span>
+        </div>
+        <div class="form-group type-field col-sm-6" data-type="software">
+            <label asp-for="ApplicationName" class="control-label"></label>
+            <input asp-for="ApplicationName" class="form-control" />
+            <span asp-validation-for="ApplicationName" class="text-danger"></span>
+        </div>
+        <div class="form-group type-field col-sm-6" data-type="accessrequest">
+            <label asp-for="SystemName" class="control-label"></label>
+            <input asp-for="SystemName" class="form-control" />
+            <span asp-validation-for="SystemName" class="text-danger"></span>
+        </div>
+        <div class="form-group col-sm-12 submit-div">
+            <input type="submit" value="Create" class="btn btn-outline-success" />
+        </div>
+    </div>
+</form>
+<div class="text-end">
+    <a asp-action="Index">Back to List</a>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

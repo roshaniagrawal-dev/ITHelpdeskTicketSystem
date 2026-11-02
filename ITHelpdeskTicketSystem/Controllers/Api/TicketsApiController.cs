@@ -2,6 +2,7 @@
 using ITHelpdeskTicketSystem.Models;
 using ITHelpdeskTicketSystem.Models.Enums;
 using ITHelpdeskTicketSystem.Services.Interfaces;
+using ITHelpdeskTicketSystem.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,19 @@ namespace ITHelpdeskTicketSystem.Controllers.Api
         {
             var result = _ticketRepository.GetTicket(id);
             if(result == null) return NotFound();
+            return Ok(new TicketDto(result.Id, result.Title, result.Status, result.Priority));
+        }
+
+        [HttpPost]
+        public IActionResult CreateTicket([FromForm]CreateTicketViewModel createTicketViewModel)
+        {
+            if (createTicketViewModel == null || !ModelState.IsValid)
+            {
+                return NotFound();
+            }
+            int id = _ticketRepository.AddTicket(createTicketViewModel);
+            if (id == 0) return NotFound();
+            var result = _ticketRepository.GetTicket(id);
             return Ok(new TicketDto(result.Id, result.Title, result.Status, result.Priority));
         }
 

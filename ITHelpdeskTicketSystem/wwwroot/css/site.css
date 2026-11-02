@@ -55,3 +55,26 @@ body {
 .status-closed {
     color: gray;
 }
+.SuccessMessage{
+    color: green;
+    font-size: 16px;
+    font-weight: 500;
+}
+.type-field{
+    display: none;
+}
+input[type=submit]{
+    width: 125px;
+}
+.submit-div {
+    text-align: center;
+    padding: 50px;
+}
+div a {
+    align-items: end;
+}
+.message-viewbag {
+    font-style: italic;
+    opacity: 0.5;
+    padding: 10px;
+}
